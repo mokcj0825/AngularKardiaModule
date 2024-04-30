@@ -10,5 +10,5 @@ import {ButtonPageComponent} from "./pages/button-page/button-page.component";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'untitled';
+  title = 'AngularModule';
 }
