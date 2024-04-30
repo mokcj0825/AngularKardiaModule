@@ -22,7 +22,7 @@ npm install
 # Start the project
 ```ng serve```
 
-# Visit http://localhost:4200
+# Testing
 Open http://localhost:4200 in your browser to view the app.
 
 # Build the project
