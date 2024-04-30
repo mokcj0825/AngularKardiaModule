@@ -20,11 +20,15 @@ npm install
 ```
 
 # Start the project
-```ng serve```
+```bash
+ng serve
+```
 
 # Testing
 Open http://localhost:4200 in your browser to view the app.
 
 # Build the project
-```ng build```
+```bash
+ng build
+```
 # The output will be stored in the `dist/` directory
