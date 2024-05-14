@@ -17,7 +17,7 @@ export class ButtonPageComponent implements OnDestroy {
   constructor(private http: HttpClient) {
   }
   callApi() {
-    this.subscription = this.http.get('http://localhost:8000/api/test').subscribe(response => {
+    this.subscription = this.http.get('http://localhost:8000/api/Testing/').subscribe(response => {
       this.outputMessage = 'Response from API: ' + response.toString();
     }, error => {
       this.outputMessage = 'Error calling API:' + error.toString();
