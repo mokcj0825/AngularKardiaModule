@@ -1,0 +1,8 @@
+{
+  "messageList": [
+    "请输入你的名字"
+  ],
+  "finishAction": "ASK_STRING",
+  "returnTo": "table_user.name",
+  "nextMessageId": 1
+}

@@ -1,20 +1,24 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Subscription} from "rxjs";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {ApiService} from "../../zygote/api";
+import {BaseComponent} from "../../base/base.component";
 
 @Component({
   selector: 'app-button-page',
   standalone: true,
   imports: [HttpClientModule],
   templateUrl: './button-page.component.html',
-  styleUrl: './button-page.component.css'
+  styleUrl: './button-page.component.scss',
+  providers: [ApiService]
 })
-export class ButtonPageComponent implements OnDestroy {
-
-  private subscription = new Subscription()
+export class ButtonPageComponent extends BaseComponent {
 
   public outputMessage = ''
-  constructor(private http: HttpClient) {
+  public outputMessage2 = ''
+  constructor(private http: HttpClient,
+              private apiService: ApiService) {
+    super();
   }
   callApi() {
     this.subscription = this.http.get('http://localhost:8000/api/Testing/').subscribe(response => {
@@ -24,7 +28,15 @@ export class ButtonPageComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe()
+  callApi2() {
+    this.subscription.add(
+      this.apiService.getApi().subscribe(response => {
+        this.outputMessage2 = 'Response from API: ' + response.messageList[0];
+        debugger;
+      }, error => {
+        this.outputMessage2 = 'Error calling API:' + error.toString();
+      }
+    ));
   }
+
 }
