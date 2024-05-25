@@ -17,7 +17,7 @@ export class MainPageComponent extends BaseComponent {
   }
 
   routeToCreateNewGame() {
-    const messageId = 0;
+    const messageId = '0000';
     this.router.navigate(['/dialog-scene', messageId]);
   }
 

@@ -1,0 +1,12 @@
+{
+  "startingAction": "CLEAR_ALL",
+  "messageList": [
+    {
+      "content": "请输入你的名字",
+      "position": "BOTTOM"
+    }
+  ],
+  "finishAction": "ASK_STRING",
+  "returnTo": "table_user.name",
+  "nextMessageId": "0001"
+}
