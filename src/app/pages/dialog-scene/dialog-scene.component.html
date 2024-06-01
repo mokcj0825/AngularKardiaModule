@@ -1,0 +1,10 @@
+<div class="dialog-on-top" *ngIf="mDisplayTop">
+  <p>{{mContentTop}}</p>
+</div>
+<div class="dialog-on-middle" *ngIf="mDisplayMiddle">
+  <p>{{mContentMiddle}}</p>
+</div>
+<div class="dialog-on-bottom" *ngIf="mDisplayBottom">
+  <p>{{mContentBottom}}</p>
+</div>
+<div class="clickable-overlay" (click)="runNextAction()"></div>
