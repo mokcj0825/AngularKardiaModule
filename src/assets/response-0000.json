@@ -6,7 +6,9 @@
       "position": "BOTTOM"
     }
   ],
-  "finishAction": "ASK_STRING",
-  "returnTo": "table_user.name",
-  "nextMessageId": "0001"
+  "finishAction": {
+    "finishAction": "ASK_STRING",
+    "returnTo": "table_user.name",
+    "nextMessageId": "0001"
+  }
 }

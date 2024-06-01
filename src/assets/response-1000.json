@@ -1,0 +1,45 @@
+{
+  "startingAction": "CLEAR_ALL",
+  "messageList": [
+    {
+      "command": "SHOW",
+      "content": "你好，这是测试内容",
+      "position": "TOP"
+    },
+    {
+      "command": "SHOW",
+      "content": "你好，这是第二段测试内容",
+      "position": "MIDDLE"
+    },
+    {
+      "command": "SHOW",
+      "content": "你好，这是第三段测试内容",
+      "position": "BOTTOM"
+    },
+    {
+      "command": "CLEAR_ALL",
+      "content": "",
+      "position": ""
+    },
+    {
+      "command": "SHOW",
+      "content": "然后，这是第一个循环",
+      "position": "TOP"
+    },
+    {
+      "command": "SHOW",
+      "content": "这是第二个循环",
+      "position": "MIDDLE"
+    },
+    {
+      "command": "SHOW",
+      "content": "这是第三个循环",
+      "position": "BOTTOM"
+    }
+  ],
+  "finishAction": {
+    "finishAction": "ASK_STRING",
+    "returnTo": "table_user.name",
+    "nextMessageId": "0001"
+  }
+}
