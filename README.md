@@ -40,4 +40,4 @@ Open http://localhost:4200 in your browser to view the app.
 ```bash
 ng build
 ```
-# The output will be stored in the `dist/` directory
+The output will be stored in the `dist/` directory.

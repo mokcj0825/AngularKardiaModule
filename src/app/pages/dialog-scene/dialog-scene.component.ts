@@ -1,18 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiService} from "../../zygote/api";
 import {BaseComponent} from "../../base/base.component";
-import {ActivatedRoute, RouterModule} from "@angular/router";
+import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 import {StartingActions} from "../../const/starting-actions";
 import {Command, FinishAction} from "../../zygote/data";
-import {NgIf} from "@angular/common";
 import {MessageActions} from "../../const/message-actions";
 import {DialogCommand} from "../../const/dialog-command";
+import {CommonModule, NgIf} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {ApiService} from "./api.service";
 
 @Component({
   selector: 'app-dialog-scene',
   standalone: true,
-  imports: [HttpClientModule, RouterModule, NgIf],
+  imports: [HttpClientModule, RouterModule, NgIf, CommonModule, FormsModule],
   templateUrl: './dialog-scene.component.html',
   styleUrl: './dialog-scene.component.scss',
   providers: [ApiService]
@@ -23,6 +24,11 @@ export class DialogSceneComponent extends BaseComponent implements OnInit {
   mIndex: number = 0;
   mFinishAction: FinishAction = new FinishAction();
 
+  mDisplayMessage = true;
+  mDisplayOptions = false;
+  mDisplayInput = false;
+  mDisplayOverlay = false;
+
   mDisplayTop = false;
   mContentTop = '';
   mDisplayMiddle = false;
@@ -30,8 +36,12 @@ export class DialogSceneComponent extends BaseComponent implements OnInit {
   mDisplayBottom = false;
   mContentBottom = '';
 
+  mOptions = ['Option 1', 'Option 2', 'Option 3']; // example value
+  userInput = ''
+
   constructor(private apiService: ApiService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
     super();
   }
 
@@ -42,6 +52,7 @@ export class DialogSceneComponent extends BaseComponent implements OnInit {
         console.log('Message ID: ' + messageId);
         if (messageId != null) {
           this.loadMessage(messageId);
+          this.mDisplayMessage = true;
         }
       })
     )
@@ -79,6 +90,7 @@ export class DialogSceneComponent extends BaseComponent implements OnInit {
   }
 
   showMessage(message: Command) {
+    this.mDisplayMessage = true;
     if(message.command == DialogCommand.SHOW) {
       switch (message.position) {
         case 'TOP':
@@ -116,10 +128,10 @@ export class DialogSceneComponent extends BaseComponent implements OnInit {
   runEndingScript() {
     switch (this.mFinishAction.finishAction) {
       case MessageActions.ASK_CHOICE:
-        console.log("Ask choice");
+        this.mDisplayOptions = true;
         break;
       case MessageActions.ASK_STRING:
-        console.log("Ask String");
+        this.mDisplayInput = true;
         break;
       case MessageActions.REDIRECT:
         console.log("Redirect");
@@ -129,5 +141,18 @@ export class DialogSceneComponent extends BaseComponent implements OnInit {
         break;
     }
   }
+
+  selectOption(input: string) {
+
+  }
+
+  submitInput() {
+    this.mIndex = 0;
+    this.mDisplayInput = false;
+    this.mDisplayOptions = false;
+    this.router.navigate(['/dialog-scene', this.mFinishAction.nextMessageId]);
+
+  }
+
 
 }

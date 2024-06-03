@@ -2,6 +2,7 @@
   "startingAction": "CLEAR_ALL",
   "messageList": [
     {
+      "command": "SHOW",
       "content": "请输入你的名字",
       "position": "BOTTOM"
     }
@@ -9,6 +10,6 @@
   "finishAction": {
     "finishAction": "ASK_STRING",
     "returnTo": "table_user.name",
-    "nextMessageId": "0001"
+    "nextMessageId": "1000"
   }
 }

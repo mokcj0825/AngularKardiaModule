@@ -3,17 +3,17 @@
   "messageList": [
     {
       "command": "SHOW",
-      "content": "你好，这是测试内容",
+      "content": "这是测试内容 - 第二版",
       "position": "TOP"
     },
     {
       "command": "SHOW",
-      "content": "你好，这是第二段测试内容",
+      "content": "你好，这是第二段测试内容 - 第二版",
       "position": "MIDDLE"
     },
     {
       "command": "SHOW",
-      "content": "你好，这是第三段测试内容",
+      "content": "你好，这是第三段测试内容 - 第二版",
       "position": "BOTTOM"
     },
     {
@@ -23,23 +23,23 @@
     },
     {
       "command": "SHOW",
-      "content": "然后，这是第一个循环",
+      "content": "然后，这是第一个循环 - 第二版",
       "position": "TOP"
     },
     {
       "command": "SHOW",
-      "content": "这是第二个循环",
+      "content": "这是第二个循环 - 第二版",
       "position": "MIDDLE"
     },
     {
       "command": "SHOW",
-      "content": "这是第三个循环",
+      "content": "这是第三个循环 - 第二版",
       "position": "BOTTOM"
     }
   ],
   "finishAction": {
     "finishAction": "ASK_STRING",
     "returnTo": "table_user.name",
-    "nextMessageId": "1001"
+    "nextMessageId": "0001"
   }
 }
