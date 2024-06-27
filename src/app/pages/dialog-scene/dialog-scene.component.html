@@ -17,23 +17,10 @@
   </div>
 </div>
 
-<!-- Dialog Options Layer -->
-<div class="dialog-options-layer" *ngIf="mDisplayOptions">
-  <ul>
-    <li *ngFor="let option of mOptions" (click)="selectOption(option)">{{option}}</li>
-  </ul>
-</div>
-
-<!-- Input Layer -->
-<div class="input-layer" *ngIf="mDisplayInput">
-  <input id="userInput" [(ngModel)]="userInput"/>
-  <button (click)="submitInput()">Submit</button>
-</div>
-
 <!-- Overlay/Modal Layer -->
 <div class="overlay-layer" *ngIf="mDisplayOverlay">
   <!-- Overlay content goes here -->
 </div>
 
 <!-- Clickable Overlay Layer -->
-<div class="clickable-overlay" (click)="runNextAction()" *ngIf="!mDisplayOptions && !mDisplayInput && !mDisplayOverlay"></div>
+<div class="clickable-overlay"  *ngIf="!mDisplayOptions && !mDisplayInput && !mDisplayOverlay"></div>

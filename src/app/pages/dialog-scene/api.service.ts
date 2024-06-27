@@ -8,13 +8,12 @@ import {Data} from "./data";
 })
 export class ApiService {
 
-  static RESPONSE = '/assets/response-';
-
+  static DIALOG_RESPONSE = '/assets/dialog-';
 
   constructor(private http: HttpClient) {
   }
 
-  getApi(index = '0'): Observable<Data> {
-    return this.http.get<Data>(ApiService.RESPONSE + index + '.json');
+  getDialog(index = '0'): Observable<Data> {
+    return this.http.get<Data>(ApiService.DIALOG_RESPONSE + index + '.json');
   }
 }

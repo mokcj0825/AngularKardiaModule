@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BaseComponent} from "../../base/base.component";
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
-import {StartingActions} from "../../const/starting-actions";
-import {Command, FinishAction} from "../../zygote/data";
-import {MessageActions} from "../../const/message-actions";
-import {DialogCommand} from "../../const/dialog-command";
 import {CommonModule, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ApiService} from "./api.service";
+import {_Event} from "../../event-command/_event.command";
+import {ShowMessage} from "../../event-command/show-message.command";
+import {EventCommand} from "../../const/event-commanad.const";
+import {MessagePosition} from "../../const/message-position.const";
+import {EraseMessage} from "../../event-command/erase-message.command";
+import {eventFactory} from "../../event-command/_event.factory";
 
 @Component({
   selector: 'app-dialog-scene',
@@ -18,11 +20,10 @@ import {ApiService} from "./api.service";
   styleUrl: './dialog-scene.component.scss',
   providers: [ApiService]
 })
-export class DialogSceneComponent extends BaseComponent implements OnInit {
+export class DialogSceneComponent extends BaseComponent implements OnInit, OnDestroy {
 
-  mMessageList: Command[] = [];
-  mIndex: number = 0;
-  mFinishAction: FinishAction = new FinishAction();
+  private events: _Event[] = [];
+  private currentEventIndex = 0;
 
   mDisplayMessage = true;
   mDisplayOptions = false;
@@ -36,123 +37,84 @@ export class DialogSceneComponent extends BaseComponent implements OnInit {
   mDisplayBottom = false;
   mContentBottom = '';
 
-  mOptions = ['Option 1', 'Option 2', 'Option 3']; // example value
-  userInput = ''
 
-  constructor(private apiService: ApiService,
-              private route: ActivatedRoute,
-              private router: Router) {
-    super();
+  constructor(public apiService: ApiService,
+              public override route: ActivatedRoute,
+              public override router: Router) {
+    super(route, router);
   }
 
-  ngOnInit() {
-    this.subscription.add(
-      this.route.paramMap.subscribe(params => {
-        const messageId = params.get('messageId');
-        console.log('Message ID: ' + messageId);
-        if (messageId != null) {
-          this.loadMessage(messageId);
-          this.mDisplayMessage = true;
-        }
-      })
-    )
-
+  loadEventData(messageId: string) {
+    this.apiService.getDialog(messageId).subscribe(data => {
+      this.events = data.events.map(i => eventFactory.create(i.eventCommand, i));
+      this.initiateEvents();
+    });
   }
 
-  loadMessage(messageId: string) {
-    this.subscription.add(
-      this.apiService.getApi(messageId).subscribe(response => {
-        if(response.startingAction == StartingActions.CLEAR_ALL) {
-          this.resetDisplay();
-        }
-        this.mMessageList = response.messageList;
-        this.mFinishAction = response.finishAction;
-        this.showFirstMessage();
-      }, error => {
-        console.log('Error calling API:' + error.toString());
-      }
-    ));
+  initiateEvents() {
+    this.currentEventIndex = 0;
+    this.executeCommand();
   }
 
-  resetDisplay() {
-    this.mDisplayTop = false;
-    this.mContentTop = '';
-    this.mDisplayMiddle = false;
-    this.mContentMiddle = '';
-    this.mDisplayBottom = false;
-    this.mContentBottom = '';
-  }
-
-  showFirstMessage() {
-    if(this.mMessageList.length > 0) {
-      this.showMessage(this.mMessageList[0]);
+  executeCommand() {
+    const executingCommand = this.events[this.currentEventIndex];
+    switch (executingCommand.eventCommand) {
+      case EventCommand.DIALOG_SHOW_MESSAGE:
+        this.displayMessage(executingCommand as ShowMessage);
+        break;
+      case EventCommand.DIALOG_ERASE_MESSAGE:
+        this.eraseMessage(executingCommand as EraseMessage);
+        break;
+      default:
+        console.log('Unknown command');
+        break;
     }
-  }
-
-  showMessage(message: Command) {
-    this.mDisplayMessage = true;
-    if(message.command == DialogCommand.SHOW) {
-      switch (message.position) {
-        case 'TOP':
-          this.mDisplayTop = true;
-          this.mContentTop = message.content;
-          break;
-        case 'MIDDLE':
-          this.mDisplayMiddle = true;
-          this.mContentMiddle = message.content;
-          break;
-        case 'BOTTOM':
-          this.mDisplayBottom = true;
-          this.mContentBottom = message.content;
-          break;
-        default:
-          console.error('Invalid position: ' + message.position);
+    this.currentEventIndex++;
+    if(this.currentEventIndex < this.events.length) {
+      if(!executingCommand.pendingInteraction) {
+        this.executeCommand();
       }
     }
-    if(message.command == DialogCommand.CLEAR_ALL) {
-      this.resetDisplay();
-      this.runNextAction();
-    }
 
   }
 
-  runNextAction() {
-    this.mIndex++;
-    if(this.mMessageList.length == this.mIndex) {
-      this.runEndingScript();
-    } else {
-      this.showMessage(this.mMessageList[this.mIndex]);
-    }
-  }
-
-  runEndingScript() {
-    switch (this.mFinishAction.finishAction) {
-      case MessageActions.ASK_CHOICE:
-        this.mDisplayOptions = true;
+  displayMessage(input: ShowMessage) {
+    switch (input.position) {
+      case MessagePosition.TOP:
+        this.mDisplayTop = true;
+        this.mContentTop = input.message;
         break;
-      case MessageActions.ASK_STRING:
-        this.mDisplayInput = true;
+      case MessagePosition.MIDDLE:
+        this.mDisplayMiddle = true;
+        this.mContentMiddle = input.message;
         break;
-      case MessageActions.REDIRECT:
-        console.log("Redirect");
+      case MessagePosition.BOTTOM:
+        this.mDisplayBottom = true;
+        this.mContentBottom = input.message;
         break;
-      case MessageActions.DO_NOTHING:
-        console.log("Do nothing");
+      default:
+        console.log('Unknown message position');
         break;
     }
   }
 
-  selectOption(input: string) {
-
+  eraseMessage(input: EraseMessage) {
+    if(input.eraseTop) {
+      this.mDisplayTop = false;
+      this.mContentTop = '';
+    }
+    if(input.eraseMiddle) {
+      this.mDisplayMiddle = false;
+      this.mContentMiddle = '';
+    }
+    if(input.eraseBottom) {
+      this.mDisplayBottom = false;
+      this.mContentBottom = '';
+    }
   }
 
-  submitInput() {
-    this.mIndex = 0;
-    this.mDisplayInput = false;
-    this.mDisplayOptions = false;
-    this.router.navigate(['/dialog-scene', this.mFinishAction.nextMessageId]);
-
+  onBaseClick() {
+    console.log('Base Click');
   }
-
 
 }
