@@ -1,10 +1,26 @@
-<div class="dialog-on-top" *ngIf="mDisplayTop">
-  <p>{{mContentTop}}</p>
+
+<!-- Background Layer -->
+<div class="background-layer">
+  <!-- Background content goes here -->
 </div>
-<div class="dialog-on-middle" *ngIf="mDisplayMiddle">
-  <p>{{mContentMiddle}}</p>
+
+<!-- Dialog Message Layer -->
+<div class="dialog-message-layer" *ngIf="mDisplayMessage">
+  <div class="dialog-on-top" *ngIf="mDisplayTop">
+    <p>{{mContentTop}}</p>
+  </div>
+  <div class="dialog-on-middle" *ngIf="mDisplayMiddle">
+    <p>{{mContentMiddle}}</p>
+  </div>
+  <div class="dialog-on-bottom" *ngIf="mDisplayBottom">
+    <p>{{mContentBottom}}</p>
+  </div>
 </div>
-<div class="dialog-on-bottom" *ngIf="mDisplayBottom">
-  <p>{{mContentBottom}}</p>
+
+<!-- Overlay/Modal Layer -->
+<div class="overlay-layer" *ngIf="mDisplayOverlay">
+  <!-- Overlay content goes here -->
 </div>
-<div class="clickable-overlay" (click)="runNextAction()"></div>
+
+<!-- Clickable Overlay Layer -->
+<div class="clickable-overlay"  *ngIf="!mDisplayOptions && !mDisplayInput && !mDisplayOverlay"></div>

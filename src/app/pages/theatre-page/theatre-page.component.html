@@ -1,0 +1,1 @@
+<app-dialog-scene *ngIf="(dialogComponentState$ | async)?.isVisible" [scriptId]="((dialogComponentState$ | async)?.scriptPath ?? '')"></app-dialog-scene>

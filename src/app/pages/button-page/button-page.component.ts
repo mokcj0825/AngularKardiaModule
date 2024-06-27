@@ -3,6 +3,7 @@ import {Subscription} from "rxjs";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {ApiService} from "../../zygote/api";
 import {BaseComponent} from "../../base/base.component";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-button-page',
@@ -17,9 +18,15 @@ export class ButtonPageComponent extends BaseComponent {
   public outputMessage = ''
   public outputMessage2 = ''
   constructor(private http: HttpClient,
-              private apiService: ApiService) {
-    super();
+              private apiService: ApiService,
+              public override route: ActivatedRoute,
+              public override router: Router) {
+    super(route, router);
   }
+
+  override loadEventData(messageId: string) {
+  }
+
   callApi() {
     this.subscription = this.http.get('http://localhost:8000/api/Testing/').subscribe(response => {
       this.outputMessage = 'Response from API: ' + response.toString();
@@ -30,7 +37,7 @@ export class ButtonPageComponent extends BaseComponent {
 
   callApi2() {
     this.subscription.add(
-      this.apiService.getApi().subscribe(response => {
+      this.apiService.getDialog().subscribe(response => {
         this.outputMessage2 = 'Response from API: ' + response.messageList[0];
         debugger;
       }, error => {
