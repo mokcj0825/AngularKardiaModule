@@ -1,4 +1,3 @@
-import {HttpClientModule} from "@angular/common/http";
 import {CommonModule, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {Component, OnDestroy, OnInit} from "@angular/core";
@@ -10,7 +9,7 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-city-scene',
   standalone: true,
-  imports: [HttpClientModule, NgIf, CommonModule, FormsModule],
+  imports: [NgIf, CommonModule, FormsModule],
   templateUrl: './city-scene.component.html',
   styleUrl:  './city-scene.component.scss',
   providers: [ApiService]

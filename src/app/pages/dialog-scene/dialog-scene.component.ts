@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BaseComponent} from "../../base/base.component";
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
-import {HttpClientModule} from "@angular/common/http";
+import {provideHttpClient} from "@angular/common/http";
 import {CommonModule, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ApiService} from "./api.service";
@@ -17,7 +17,7 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 @Component({
   selector: 'app-dialog-scene',
   standalone: true,
-  imports: [HttpClientModule, RouterModule, NgIf, CommonModule, FormsModule],
+  imports: [RouterModule, NgIf, CommonModule, FormsModule],
   templateUrl: './dialog-scene.component.html',
   styleUrl: './dialog-scene.component.scss',
   providers: [ApiService]
