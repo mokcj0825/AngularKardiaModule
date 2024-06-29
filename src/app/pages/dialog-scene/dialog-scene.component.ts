@@ -11,6 +11,8 @@ import {EventCommand} from "../../const/event-commanad.const";
 import {MessagePosition} from "../../const/message-position.const";
 import {EraseMessage} from "../../event-command/erase-message.command";
 import {eventFactory} from "../../event-command/_event.factory";
+import {SceneCommand} from "../../const/scene.const";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-dialog-scene',
@@ -24,6 +26,8 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
 
   private events: _Event[] = [];
   private currentEventIndex = 0;
+
+  mRequireExtraInteraction = false;
 
   mDisplayMessage = true;
   mDisplayOptions = false;
@@ -39,14 +43,14 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
 
 
   constructor(public apiService: ApiService,
-              public override route: ActivatedRoute,
               public override router: Router) {
-    super(route, router);
+    super(router);
   }
 
   loadEventData(messageId: string) {
     this.apiService.getDialog(messageId).subscribe(data => {
       this.events = data.events.map(i => eventFactory.create(i.eventCommand, i));
+      this.finishInstruction = data.finishEvent;
       this.initiateEvents();
     });
   }
@@ -59,10 +63,10 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
   executeCommand() {
     const executingCommand = this.events[this.currentEventIndex];
     switch (executingCommand.eventCommand) {
-      case EventCommand.DIALOG_SHOW_MESSAGE:
+      case EventCommand.SHOW_MESSAGE:
         this.displayMessage(executingCommand as ShowMessage);
         break;
-      case EventCommand.DIALOG_ERASE_MESSAGE:
+      case EventCommand.ERASE_MESSAGE:
         this.eraseMessage(executingCommand as EraseMessage);
         break;
       default:
@@ -74,11 +78,14 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
       if(!executingCommand.pendingInteraction) {
         this.executeCommand();
       }
+    } else {
+      this.mFinishSignal = true;
     }
 
   }
 
   displayMessage(input: ShowMessage) {
+    this.mRequireExtraInteraction = false;
     switch (input.position) {
       case MessagePosition.TOP:
         this.mDisplayTop = true;
@@ -99,6 +106,7 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
   }
 
   eraseMessage(input: EraseMessage) {
+    this.mRequireExtraInteraction = false;
     if(input.eraseTop) {
       this.mDisplayTop = false;
       this.mContentTop = '';
@@ -114,7 +122,28 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
   }
 
   onBaseClick() {
-    console.log('Base Click');
+    if(this.mFinishSignal) {
+      this.executeTerminationCommand();
+    } else {
+      this.executeCommand();
+    }
+
+  }
+
+  onInteracted() {
+    console.log('Interacted');
+  }
+
+  executeTerminationCommand() {
+    console.log(this.finishInstruction);
+    switch (this.finishInstruction.nextScene) {
+      case SceneCommand.DIALOG:
+        break;
+      case SceneCommand.CITY:
+        break;
+      default:
+        throw error('Unidentified command.')
+    }
   }
 
 }

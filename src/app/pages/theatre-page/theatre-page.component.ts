@@ -30,8 +30,8 @@ export class TheatrePageComponent implements OnInit, OnDestroy {
     this.storeService.setComponentState(ComponentType.DIALOG, true, scriptId);
   }
 
-  routeToCity() {
-    this.storeService.setComponentState(ComponentType.CITY, true, '');
+  routeToCity(scriptId: string) {
+    this.storeService.setComponentState(ComponentType.CITY, true, scriptId);
   }
 
   ngOnDestroy() {

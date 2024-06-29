@@ -23,7 +23,7 @@ export class EraseMessage extends _Event {
   eraseBottom = true;
 
   constructor(input: any) {
-    super(EventCommand.DIALOG_ERASE_MESSAGE);
+    super(EventCommand.ERASE_MESSAGE);
     this.eraseTop = input?.eraseTop ?? this.eraseTop;
     this.eraseMiddle = input?.eraseMiddle ?? this.eraseMiddle;
     this.eraseBottom = input?.eraseBottom ?? this.eraseBottom;

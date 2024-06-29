@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {BaseComponent} from "../../base/base.component";
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
+import {ActivatedRoute, Event, Router, RouterModule} from "@angular/router";
 import {registerAllEvents} from "../../event-command/_event.registration";
 
 @Component({
@@ -13,9 +13,8 @@ import {registerAllEvents} from "../../event-command/_event.registration";
 })
 export class MainPageComponent extends BaseComponent {
 
-  constructor(public override route: ActivatedRoute,
-              public override router: Router) {
-    super(route, router);
+  constructor(public override router: Router) {
+    super(router);
   }
 
   override ngOnInit() {
@@ -27,11 +26,17 @@ export class MainPageComponent extends BaseComponent {
   }
 
   routeToCreateNewGame() {
-    const messageId = '0000';
     this.router.navigate(['/theatre']);
   }
 
   routeToExitGame() {
+
+  }
+
+  executeCommand() {
+  }
+
+  executeTerminationCommand() {
 
   }
 

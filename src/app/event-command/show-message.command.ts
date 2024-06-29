@@ -24,14 +24,13 @@ export class ShowMessage extends _Event {
   public message: string;
 
   public constructor(input: any) {
-    super(EventCommand.DIALOG_SHOW_MESSAGE);
+    super(EventCommand.SHOW_MESSAGE);
     this.unitRes = input.unitRes;
     this.position = input.position;
     this.message = input.message;
   }
 
   protected setInteractionRequired(): boolean {
-    console.log("Set interaction required");
     return true;
   }
 

@@ -19,9 +19,8 @@ export class ButtonPageComponent extends BaseComponent {
   public outputMessage2 = ''
   constructor(private http: HttpClient,
               private apiService: ApiService,
-              public override route: ActivatedRoute,
               public override router: Router) {
-    super(route, router);
+    super(router);
   }
 
   override loadEventData(messageId: string) {
@@ -44,6 +43,13 @@ export class ButtonPageComponent extends BaseComponent {
         this.outputMessage2 = 'Error calling API:' + error.toString();
       }
     ));
+  }
+
+  override executeCommand(): void {
+    throw new Error('Method not implemented.');
+  }
+  override executeTerminationCommand(): void {
+    throw new Error('Method not implemented.');
   }
 
 }
