@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import {ApiService} from "../../zygote/api";
 import {BaseComponent} from "../../base/base.component";
 import {ActivatedRoute, Router} from "@angular/router";
+import {StoreService} from "../../service/store.service";
 
 @Component({
   selector: 'app-button-page',
@@ -19,8 +20,8 @@ export class ButtonPageComponent extends BaseComponent {
   public outputMessage2 = ''
   constructor(private http: HttpClient,
               private apiService: ApiService,
-              public override router: Router) {
-    super(router);
+              storeService: StoreService) {
+    super(storeService);
   }
 
   override loadEventData(messageId: string) {

@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BaseComponent} from "../../base/base.component";
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
-import {provideHttpClient} from "@angular/common/http";
+import {RouterModule} from "@angular/router";
 import {CommonModule, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ApiService} from "./api.service";
@@ -12,7 +11,7 @@ import {MessagePosition} from "../../const/message-position.const";
 import {EraseMessage} from "../../event-command/erase-message.command";
 import {eventFactory} from "../../event-command/_event.factory";
 import {SceneCommand} from "../../const/scene.const";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {ComponentType, StoreService} from "../../service/store.service";
 
 @Component({
   selector: 'app-dialog-scene',
@@ -43,8 +42,8 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
 
 
   constructor(public apiService: ApiService,
-              public override router: Router) {
-    super(router);
+              storeService: StoreService) {
+    super(storeService);
   }
 
   loadEventData(messageId: string) {
@@ -58,6 +57,11 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
   initiateEvents() {
     this.currentEventIndex = 0;
     this.executeCommand();
+  }
+
+  override ngOnChanges() {
+    super.ngOnChanges();
+    console.log('Changes')
   }
 
   executeCommand() {
@@ -135,14 +139,18 @@ export class DialogSceneComponent extends BaseComponent implements OnInit, OnDes
   }
 
   executeTerminationCommand() {
-    console.log(this.finishInstruction);
+    if(this.finishInstruction.nextScene != SceneCommand.DIALOG) {
+      this.storeService.setComponentState(ComponentType.DIALOG, false, '');
+    }
     switch (this.finishInstruction.nextScene) {
       case SceneCommand.DIALOG:
+        this.storeService.setComponentState(ComponentType.DIALOG, true, this.finishInstruction.nextScript);
         break;
       case SceneCommand.CITY:
+        this.storeService.setComponentState(ComponentType.CITY, true, this.finishInstruction.nextScript);
         break;
       default:
-        throw error('Unidentified command.')
+        console.log("Error, not implemented scene command");
     }
   }
 

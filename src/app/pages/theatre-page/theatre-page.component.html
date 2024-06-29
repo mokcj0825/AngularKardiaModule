@@ -1,1 +1,2 @@
+<app-city-scene *ngIf="(cityComponentState$ | async)?.isVisible" [scriptId]="((cityComponentState$ | async)?.scriptPath ?? '')"></app-city-scene>
 <app-dialog-scene *ngIf="(dialogComponentState$ | async)?.isVisible" [scriptId]="((dialogComponentState$ | async)?.scriptPath ?? '')"></app-dialog-scene>

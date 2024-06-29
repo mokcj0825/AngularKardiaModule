@@ -18,9 +18,11 @@ export class Data {
 export class FinishEvent {
   readonly nextScene: SceneCommand;
   readonly nextScript: string;
+  readonly shouldClose: boolean;
 
   constructor(input: any) {
     this.nextScene = input.nextScene;
     this.nextScript = input.nextScript;
+    this.shouldClose = input.shouldClose;
   }
 }

@@ -5,6 +5,9 @@ import {ApiService} from "./api.service";
 import {BaseComponent} from "../../base/base.component";
 import {_Event} from "../../event-command/_event.command";
 import {Router} from "@angular/router";
+import {StoreService} from "../../service/store.service";
+import {Size} from "./city-config";
+
 
 @Component({
   selector: 'app-city-scene',
@@ -19,13 +22,34 @@ export class CitySceneComponent extends BaseComponent implements OnInit, OnDestr
   private events: _Event[] = [];
   private currentEventIndex = 0;
 
+  mCitySize!: Size;
+  tiles: any[] = [];
+
   constructor(public apiService: ApiService,
-              public override router: Router) {
-    super(router);
+              storeService: StoreService) {
+    super(storeService);
   }
 
   loadEventData(messageId: string) {
+    this.apiService.getCityConfig(messageId).subscribe(data => {
+      this.mCitySize = data.size;
 
+      this.initiate();
+    })
+  }
+
+  initiate() {
+    this.generateTiles();
+    this.render();
+  }
+
+  generateTiles() {
+    this.tiles = [];
+    this.tiles = Array.from({ length: this.mCitySize.width * this.mCitySize.height }, (_, i) => ({ id: i }));
+  }
+
+  render() {
+    console.log('Render', this.mCitySize);
   }
 
   executeCommand() {

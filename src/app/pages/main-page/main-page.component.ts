@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {BaseComponent} from "../../base/base.component";
 import {ActivatedRoute, Event, Router, RouterModule} from "@angular/router";
 import {registerAllEvents} from "../../event-command/_event.registration";
@@ -11,18 +11,13 @@ import {registerAllEvents} from "../../event-command/_event.registration";
   styleUrl: './main-page.component.scss',
   providers: []
 })
-export class MainPageComponent extends BaseComponent {
+export class MainPageComponent implements OnInit, OnDestroy {
 
-  constructor(public override router: Router) {
-    super(router);
+  constructor(public router: Router) {
   }
 
-  override ngOnInit() {
+  ngOnInit() {
     registerAllEvents();
-  }
-
-  override loadEventData(messageId: string) {
-
   }
 
   routeToCreateNewGame() {
@@ -33,10 +28,7 @@ export class MainPageComponent extends BaseComponent {
 
   }
 
-  executeCommand() {
-  }
-
-  executeTerminationCommand() {
+  ngOnDestroy() {
 
   }
 
