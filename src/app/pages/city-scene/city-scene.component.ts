@@ -23,6 +23,7 @@ export class CitySceneComponent extends BaseComponent implements OnInit, OnDestr
   private currentEventIndex = 0;
 
   mCitySize!: Size;
+  mBackground!: string;
   tiles: any[] = [];
 
   constructor(public apiService: ApiService,
@@ -33,7 +34,7 @@ export class CitySceneComponent extends BaseComponent implements OnInit, OnDestr
   loadEventData(messageId: string) {
     this.apiService.getCityConfig(messageId).subscribe(data => {
       this.mCitySize = data.size;
-
+      this.mBackground = `url(assets/${data.background})`;
       this.initiate();
     })
   }

@@ -1,8 +1,10 @@
 export class CityConfig {
   readonly size: Size;
+  readonly background: string;
 
   constructor(input: any) {
     this.size = new Size(input.size);
+    this.background = input.background;
   }
 }
 

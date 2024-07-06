@@ -25,11 +25,10 @@ Tile layer for every grid.
 }
 
 .tile {
-  width: 80px;
-  height: 80px;
-  background-color: white;
+  width: 64px;
+  height: 64px;
   box-sizing: border-box;
-  border: 1px solid black;
+  border: 1px dashed #00000040;
 }
 
 /*
