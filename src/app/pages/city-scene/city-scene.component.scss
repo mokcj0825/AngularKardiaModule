@@ -1,0 +1,77 @@
+/*
+The most fundamental layer.
+ */
+.background-layer {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+Tile layer for every grid.
+ */
+.tile-layer {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  overflow: hidden;
+}
+
+.tile {
+  width: 64px;
+  height: 64px;
+  box-sizing: border-box;
+  border: 1px dashed #00000040;
+}
+
+/*
+Environment layer. For example building, fences.
+ */
+.environment-layer {
+  z-index: 20;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+Character layer, for example NPCs, or interactables.
+ */
+.character-layer {
+  z-index: 30;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.effect-layer {
+  z-index: 40;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+The topmost layer in the UI.
+ */
+.weather-layer {
+  z-index: 50;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

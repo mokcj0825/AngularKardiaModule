@@ -18,9 +18,12 @@
 </div>
 
 <!-- Overlay/Modal Layer -->
-<div class="overlay-layer" *ngIf="mDisplayOverlay">
+<div class="base-click-layer" (click)="onBaseClick()">
   <!-- Overlay content goes here -->
 </div>
 
-<!-- Clickable Overlay Layer -->
-<div class="clickable-overlay"  *ngIf="!mDisplayOptions && !mDisplayInput && !mDisplayOverlay"></div>
+<div class="interaction-layer" *ngIf="mRequireExtraInteraction">
+  <div (click)="onInteracted()">
+    Another interaction
+  </div>
+</div>

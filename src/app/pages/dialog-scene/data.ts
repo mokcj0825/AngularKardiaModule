@@ -1,6 +1,9 @@
 import {_Event} from "../../event-command/_event.command";
+import {SceneCommand} from "../../const/scene.const";
 
-
+/**
+ * Basic structure for Dialog object.
+ */
 export class Data {
   readonly events: _Event[];
   readonly finishEvent: FinishEvent;
@@ -13,11 +16,13 @@ export class Data {
 }
 
 export class FinishEvent {
-  readonly nextScene: string;
+  readonly nextScene: SceneCommand;
   readonly nextScript: string;
+  readonly shouldClose: boolean;
 
   constructor(input: any) {
     this.nextScene = input.nextScene;
     this.nextScript = input.nextScript;
+    this.shouldClose = input.shouldClose;
   }
 }

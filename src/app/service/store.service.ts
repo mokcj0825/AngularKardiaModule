@@ -25,10 +25,10 @@ export class StoreService {
 }
 
 export enum ComponentType {
-  DIALOG = 'dialog',
-  CITY = 'city',
-  BATTLEFIELD = 'battlefield',
-  MENU = 'menu'
+  DIALOG = 'DIALOG',
+  CITY = 'CITY',
+  BATTLEFIELD = 'BATTLEFIELD',
+  MENU = 'MENU'
 }
 
 export interface ComponentState {

@@ -1,14 +1,15 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Subscription} from "rxjs";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {ApiService} from "../../zygote/api";
 import {BaseComponent} from "../../base/base.component";
 import {ActivatedRoute, Router} from "@angular/router";
+import {StoreService} from "../../service/store.service";
 
 @Component({
   selector: 'app-button-page',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [],
   templateUrl: './button-page.component.html',
   styleUrl: './button-page.component.scss',
   providers: [ApiService]
@@ -19,9 +20,8 @@ export class ButtonPageComponent extends BaseComponent {
   public outputMessage2 = ''
   constructor(private http: HttpClient,
               private apiService: ApiService,
-              public override route: ActivatedRoute,
-              public override router: Router) {
-    super(route, router);
+              storeService: StoreService) {
+    super(storeService);
   }
 
   override loadEventData(messageId: string) {
@@ -44,6 +44,13 @@ export class ButtonPageComponent extends BaseComponent {
         this.outputMessage2 = 'Error calling API:' + error.toString();
       }
     ));
+  }
+
+  override executeCommand(): void {
+    throw new Error('Method not implemented.');
+  }
+  override executeTerminationCommand(): void {
+    throw new Error('Method not implemented.');
   }
 
 }

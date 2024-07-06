@@ -38,7 +38,8 @@
     }
   ],
   "finishEvent": {
-    "nextScene": "CITY",
-    "nextScript": "0000"
+    "nextScene": "DIALOG",
+    "nextScript": "0001",
+    "shouldClose": true
   }
 }
